@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------------------
+# PYTHON
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenv
+venv/
+env/
+.venv/
+
+# Local configuration
+*.env
+.env.*
+*.local
+*.ini
+
+# Byte-compiled / packages
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+pip-wheel-metadata/
+pip-log.txt
+
+# ------------------------------------------------------------------------------
+# DJANGO
+# ------------------------------------------------------------------------------
+*.log
+*.pot
+*.pyc
+db.sqlite3
+db.sqlite3-journal
+
+# Django cache / session
+*.cache
+*.mo
+*.pot
+
+# Static + media (Dj
