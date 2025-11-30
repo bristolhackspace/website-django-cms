@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
 
     # Your app
     "events",
+    "blog",
 ]
 
 MIDDLEWARE = [
@@ -88,6 +91,9 @@ SITE_ID = 1
 CMS_TEMPLATES = [
     ("base.html", "Base template"),
 ]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # We are starting a fresh django CMS 4+/5 project, not migrating from v3.
 CMS_CONFIRM_VERSION4 = True
@@ -128,7 +134,27 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = [
+    ("en", _("English")),
+]
+
+CMS_LANGUAGES = {
+    1: [
+        {
+            "code": "en",
+            "name": _("English"),
+            "public": True,
+        },
+    ],
+    "default": {
+        "fallbacks": ["en"],
+        "redirect_on_fallback": False,
+        "public": True,
+        "hide_untranslated": False,
+    },
+}
 
 TIME_ZONE = 'UTC'
 
