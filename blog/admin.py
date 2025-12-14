@@ -1,10 +1,21 @@
+import json
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import BlogPost
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ("title", "publish_date", "author", "is_published")
-    list_filter = ("is_published", "publish_date")
-    search_fields = ("title", "subtitle", "intro_text", "author")
     prepopulated_fields = {"slug": ("title",)}
-    date_hierarchy = "publish_date"
+    readonly_fields = ("body_json_pretty",)
+
+    fieldsets = (
+        (None, {"fields": ("title", "slug", "subtitle", "intro_text", "main_image")}),
+        ("Content", {"fields": ("body_html", "body_json_pretty")}),
+        ("Publishing", {"fields": ("author", "publish_date", "is_published")}),
+    )
+
+    def body_json_pretty(self, obj: BlogPost) -> str:
+        return format_html("<pre>{}</pre>", json.dumps(obj.body_json, indent=2, sort_keys=True))
+
+    body_json_pretty.short_description = "Derived JSON"
+
