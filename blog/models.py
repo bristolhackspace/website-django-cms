@@ -36,6 +36,10 @@ class BlogPost(models.Model):
             "Blockquote": True,
             "Heading": {"levels": [2, 3, 4]},
             "Link": {"protocols": ["http", "https", "mailto"]},
+            "Image": {
+                "inline": False,
+                "allowBase64": False,  # keep this False for security/perf
+            },
         },
         sanitize=True,
         help_text="Body content (rich text).",
@@ -67,3 +71,12 @@ class BlogPost(models.Model):
         self.body_json = html_to_blocks(self.body_html)
         
         super().save(*args, **kwargs)
+
+
+class BlogImage(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(upload_to="blog_body_images/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.title or self.image.name

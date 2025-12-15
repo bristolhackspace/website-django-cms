@@ -1,7 +1,7 @@
 import json
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import BlogPost
+from .models import BlogImage, BlogPost
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
@@ -19,3 +19,12 @@ class BlogPostAdmin(admin.ModelAdmin):
 
     body_json_pretty.short_description = "Derived JSON"
 
+
+@admin.register(BlogImage)
+class BlogImageAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "uploaded_at", "image_url")
+
+    def image_url(self, obj: BlogImage) -> str:
+        return format_html('<a href="{}" target="_blank">{}</a>', obj.image.url, obj.image.url)
+
+    image_url.short_description = "URL"
