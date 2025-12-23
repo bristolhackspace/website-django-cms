@@ -34,5 +34,6 @@ urlpatterns = [
     path("", include("cms.urls")),
 ]
 
-if settings.DEBUG:
+# Only serve media locally when not using s3 object store
+if settings.DEBUG and settings.MEDIA_URL.startswith("/"):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

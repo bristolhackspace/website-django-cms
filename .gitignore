@@ -16,6 +16,10 @@ env/
 *.local
 *.ini
 
+# Allow example env files
+!.env.*.example
+!.env.local.example
+
 # Byte-compiled / packages
 *.so
 *.egg

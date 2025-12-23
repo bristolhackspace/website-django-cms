@@ -94,8 +94,38 @@ CMS_TEMPLATES = [
     ("base.html", "Base template"),
 ]
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")  # local | s3
+
+if DJANGO_STORAGE_BACKEND == "s3":
+    INSTALLED_APPS += ["storages"]
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+            "OPTIONS": {
+                "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+                "endpoint_url": os.environ["AWS_S3_ENDPOINT_URL"],
+                "region_name": os.getenv("AWS_S3_REGION_NAME", "garage"),
+                "addressing_style": os.getenv("AWS_S3_ADDRESSING_STYLE", "path"),
+                "location": "media",
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+
+    # For public blog images:
+    AWS_QUERYSTRING_AUTH = os.getenv("AWS_QUERYSTRING_AUTH", "false").lower() == "true"
+
+    # Simple direct URL (fine for local dev):
+    MEDIA_URL = (
+        f"{os.environ['AWS_S3_ENDPOINT_URL'].rstrip('/')}/"
+        f"{os.environ['AWS_STORAGE_BUCKET_NAME']}/media/"
+    )
+else:
+    # normal local dev
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
 
 # We are starting a fresh django CMS 4+/5 project, not migrating from v3.
 CMS_CONFIRM_VERSION4 = True
