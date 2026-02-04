@@ -76,6 +76,8 @@ export DJANGO_SECRET_KEY="mysupersecretkeyremainsjustthat"
 # $env:DJANGO_SECRET_KEY = "mysupersecretkeyremainsjustthat"
 ```
 
+See the .env.local.example file for example env vars that must be configured to allow Django CMS to use a garage object store for blog images.
+
 ### Run the development server
 
 Ensure you are in the root of the project (the same folder as manage.py) and your virtual environment is activated.
@@ -116,4 +118,4 @@ Follow the prompts to create an admin login.
 
 ### CMS overview and adding a blog
 
-To see how to use the CMS to add a new blog article view the video [Hackspace CMS Overview](https://youtu.be/ylZvf80C9bU) (Tip: watch at 1.5 speed!)
+To see how to use the CMS to add a new blog article view the video [Hackspace CMS Overview](https://youtu.be/_tVBsuZntko) (Tip: watch at 1.5 speed!)
