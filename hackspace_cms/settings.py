@@ -96,6 +96,9 @@ CMS_TEMPLATES = [
 
 DJANGO_STORAGE_BACKEND = os.getenv("DJANGO_STORAGE_BACKEND", "local")  # local | s3
 
+PUBLIC_MEDIA_URL = os.getenv("PUBLIC_MEDIA_URL", "http://127.0.0.1:5000/media/")
+PUBLIC_MEDIA_HOST = PUBLIC_MEDIA_URL.split("://", 1)[-1].split("/", 1)[0]
+
 if DJANGO_STORAGE_BACKEND == "s3":
     INSTALLED_APPS += ["storages"]
     STORAGES = {
@@ -107,21 +110,18 @@ if DJANGO_STORAGE_BACKEND == "s3":
                 "region_name": os.getenv("AWS_S3_REGION_NAME", "garage"),
                 "addressing_style": os.getenv("AWS_S3_ADDRESSING_STYLE", "path"),
                 "location": "media",
+                "custom_domain": PUBLIC_MEDIA_HOST,
             },
         },
         "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
+    MEDIA_URL = PUBLIC_MEDIA_URL
 
     # For public blog images:
     AWS_QUERYSTRING_AUTH = os.getenv("AWS_QUERYSTRING_AUTH", "false").lower() == "true"
 
-    # Simple direct URL (fine for local dev):
-    MEDIA_URL = (
-        f"{os.environ['AWS_S3_ENDPOINT_URL'].rstrip('/')}/"
-        f"{os.environ['AWS_STORAGE_BUCKET_NAME']}/media/"
-    )
 else:
     # normal local dev
     MEDIA_URL = "/media/"
@@ -198,7 +198,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
