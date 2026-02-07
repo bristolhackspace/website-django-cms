@@ -2,6 +2,8 @@
 
 This is the repository for the headless CMS used for managing content in the Hackspace website. The CMS uses Django CMS with media uploads provided by the Pillow library.
 
+See the [guides](#guides) for an overview and video tutorials.
+
 ## Prerequisites
 
 To run this code locally it is assumed you have installed:
@@ -109,3 +111,9 @@ python manage.py createsuperuser
 ```
 
 Follow the prompts to create an admin login.
+
+## Guides
+
+### CMS overview and adding a blog
+
+To see how to use the CMS to add a new blog article view the video [Hackspace CMS Overview](https://youtu.be/ylZvf80C9bU) (Tip: watch at 1.5 speed!)

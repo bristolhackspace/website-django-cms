@@ -44,4 +44,7 @@ db.sqlite3-journal
 *.mo
 *.pot
 
-# Static + media (Dj
+/media/blog_body_images/*
+/media/blog_main_images/*
+!/media/.gitkeep
+!/media/**/.gitkeep

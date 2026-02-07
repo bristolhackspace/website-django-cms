@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "treebeard",
     "sekizai",
     "rest_framework",
+    "django_prose_editor",
 
     # Your app
     "events",
@@ -74,7 +75,7 @@ ROOT_URLCONF = 'hackspace_cms.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,6 +83,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
+                'js_asset.context_processors.importmap',
             ],
         },
     },

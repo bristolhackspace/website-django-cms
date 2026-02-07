@@ -4,6 +4,9 @@ from django.db import models
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from blog.content import html_to_blocks
+from django_prose_editor.fields import ProseEditorField
+
 
 class BlogPost(models.Model):
     slug = models.SlugField(unique=True)
@@ -19,10 +22,32 @@ class BlogPost(models.Model):
         help_text="Main image for the article",
     )
 
-    # store HTML; editors can include <img>, <a>, iframe, etc.
-    body_html = models.TextField(
-        help_text="Full body (HTML). Can contain images, embeds, etc."
+    body_html = ProseEditorField(
+        extensions={
+            # Keep this conservative to start; you can add more later.
+            "Bold": True,
+            "Italic": True,
+            "Underline": True,
+            "Strike": True,
+            "HardBreak": True,
+            "BulletList": True,
+            "OrderedList": True,
+            "ListItem": True,
+            "Blockquote": True,
+            "Heading": {"levels": [2, 3, 4]},
+            "Link": {"protocols": ["http", "https", "mailto"]},
+            "Image": {
+                "inline": False,
+                "allowBase64": False,  # keep this False for security/perf
+            },
+        },
+        sanitize=True,
+        help_text="Body content (rich text).",
     )
+
+    # Derived, machine-friendly representation
+    body_json = models.JSONField(default=dict, editable=False)
+
 
     author = models.CharField(max_length=100, help_text="Display name of the author")
 
@@ -41,4 +66,17 @@ class BlogPost(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+
+        # Generate derived JSON from sanitized HTML
+        self.body_json = html_to_blocks(self.body_html)
+        
         super().save(*args, **kwargs)
+
+
+class BlogImage(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(upload_to="blog_body_images/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.title or self.image.name
