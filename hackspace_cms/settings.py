@@ -30,7 +30,7 @@ if not SECRET_KEY:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','cms','cms-staging','website-django-cms', 'cms-staging.bristolhackspace.org', 'cms.bristolhackspace.org']
 
 
 # Application definition
