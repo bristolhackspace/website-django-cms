@@ -1,0 +1,9 @@
+/* Make django-prose-editor taller by default */
+.prose-editor {
+    min-height: 400px;
+}
+
+/* Ensure the actual editable area stretches */
+.prose-editor .ProseMirror {
+    min-height: 360px;
+}
