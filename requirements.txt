@@ -2,7 +2,8 @@ Django==5.2.8
 django-classy-tags==4.1.0
 django-cms==5.0.5
 django-formtools==2.5.1
-django-prose-editor==0.22.4
+#Added to resolve the import error with nh3 seen building container
+django-prose-editor[sanitize]==0.22.4
 django-sekizai==4.1.0
 django-treebeard==4.7.1
 djangocms-admin-style==3.3.1
