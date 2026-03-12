@@ -32,6 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','cms','cms-staging','website-django-cms', 'cms-staging.bristolhackspace.org', 'cms.bristolhackspace.org']
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost','http://cms','http://cms-staging','http://website-django-cms', 'https://cms-staging.bristolhackspace.org', 'https://cms.bristolhackspace.org']
+
 
 # Application definition
 
@@ -200,6 +202,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = os.path.join(BASE_DIR,'static_collected')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
